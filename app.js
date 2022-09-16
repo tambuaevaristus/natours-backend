@@ -25,19 +25,19 @@ app.get("/api/v1/tours", (req, res) => {
 app.get("/api/v1/tours/:id", (req, res) => {
   console.log(req.params);
   const id = req.params.id * 1;
-  if(id> tours.length){
-    return res.status(404).json({ 
-      status: 'not_found',
-      message: 'invalid id'
-    })
-  }
 
   const tour = tours.find((el) => el.id === id);
+  if (!tour) {
+    return res.status(404).json({
+      status: "not_found",
+      message: "invalid id",
+    });
+  }
   res.status(200).json({
-    status: 'ok',
-    data:{
-      tour
-    }
+    status: "ok",
+    data: {
+      tour,
+    },
   });
 });
 
@@ -61,6 +61,40 @@ app.post("/api/v1/tours", (req, res) => {
     }
   );
 });
+
+app.patch("/api/v1/tours/:id", (req, res) => {
+  const id = req.params.id * 1;
+
+  const tour = tours.find((el) => el.id === id);
+  if (!tour) {
+    return res.status(404).json({
+      status: "ivalid id here",
+      message: "invalid id",
+    });
+  }
+  res.status(200).json({
+    data:{
+      tour: '<Updated tour >'
+    }
+  })
+});
+
+app.delete("/api/v1/tours/:id", (req, res) => {
+  const id = req.params.id * 1;
+
+  const tour = tours.find((el) => el.id === id);
+  if (!tour) {
+    return res.status(404).json({
+      status: "ivalid id here",
+      message: "invalid id",
+    });
+  }
+  res.status(204).json({
+    data:null
+  })
+});
+
+
 
 app.listen(port, () => {
   console.log(`App running on port ${port}...`);
